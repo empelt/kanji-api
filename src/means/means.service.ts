@@ -39,4 +39,12 @@ export class MeansService {
   async delete(id: number): Promise<void> {
     await this.meansRepository.delete(id);
   }
+
+  async findAllByKanjiId(id: number): Promise<Mean[]> {
+    return this.meansRepository.find({
+      where: {
+        kanji_id: id,
+      },
+    });
+  }
 }

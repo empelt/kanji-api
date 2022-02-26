@@ -50,4 +50,10 @@ export class MeansController {
   async delete(@Param('id') id: number): Promise<void> {
     this.meansService.delete(id);
   }
+
+  @Get('findAllByKanjiId/:id')
+  @HttpCode(HttpStatus.OK)
+  findAllByKanjiId(@Param('id') id: number): Promise<Mean[]> {
+    return this.meansService.findAllByKanjiId(id);
+  }
 }

@@ -50,4 +50,10 @@ export class KanjisController {
   async delete(@Param('id') id: number): Promise<void> {
     this.kanjisService.delete(id);
   }
+
+  @Post('findAllByKana')
+  @HttpCode(HttpStatus.OK)
+  findAllByCompanyId(@Body() data): Promise<Kanji[]> {
+    return this.kanjisService.findAllByKana(data['kana']);
+  }
 }

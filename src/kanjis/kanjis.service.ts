@@ -39,4 +39,13 @@ export class KanjisService {
   async delete(id: number): Promise<void> {
     await this.kanjisRepository.delete(id);
   }
+
+  async findAllByKana(kana: string): Promise<Kanji[]> {
+    return this.kanjisRepository.find({
+      where: {
+        katakana: kana,
+      },
+      take: 9,
+    });
+  }
 }
