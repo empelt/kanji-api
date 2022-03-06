@@ -53,7 +53,7 @@ export class KanjisController {
 
   @Post('findAllByKana')
   @HttpCode(HttpStatus.OK)
-  findAllByCompanyId(@Body() data): Promise<Kanji[]> {
+  findAllByCompanyId(@Body() data) {
     return this.kanjisService.findAllByKana(data['kana']);
   }
 }

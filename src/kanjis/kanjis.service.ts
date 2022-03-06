@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Kanji } from './kanji.entity';
+import { Mean } from '../means/mean.entity';
 import { CreateKanjiDto } from './dto/create-kanji.dto';
 import { UpdateKanjiDto } from './dto/update-kanji.dto';
 
@@ -10,6 +11,8 @@ export class KanjisService {
   constructor(
     @InjectRepository(Kanji)
     private kanjisRepository: Repository<Kanji>,
+    @InjectRepository(Mean)
+    private meansRepository: Repository<Mean>,
   ) {}
 
   async findAll(): Promise<Kanji[]> {
@@ -40,12 +43,13 @@ export class KanjisService {
     await this.kanjisRepository.delete(id);
   }
 
-  async findAllByKana(kana: string): Promise<Kanji[]> {
-    return this.kanjisRepository.find({
-      where: {
-        katakana: kana,
-      },
-      take: 9,
-    });
+  async findAllByKana(kana: string) {
+    const res = await this.kanjisRepository
+      .createQueryBuilder('kanji')
+      .leftJoinAndSelect('kanji.means', 'mean')
+      .where('kanji.katakana = :katakana', { katakana: kana })
+      .take(9)
+      .getMany();
+    return res;
   }
 }

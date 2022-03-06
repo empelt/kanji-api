@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Kanji } from '../kanjis/kanji.entity'
 
 @Entity({name: 'Mean'})
 export class Mean {
@@ -16,4 +17,8 @@ export class Mean {
 
   @Column({ type: 'timestamp'})
   updated: Date;
+
+  @ManyToOne((type) => Kanji, (kanji) => kanji.means)
+  @JoinColumn({ name: 'kanji_id' })
+  kanji?: Kanji;
 }

@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Mean } from '../means/mean.entity';
 
 @Entity({ name: 'Kanji' })
 export class Kanji {
@@ -16,4 +17,7 @@ export class Kanji {
 
   @Column({ type: 'timestamp' })
   updated: Date;
+
+  @OneToMany((type) => Mean, (mean) => mean.kanji)
+  means?: Mean[];
 }
